@@ -10,7 +10,11 @@ This repository is the official PyTorch implementation of the paper:
 
 ## 📝 Abstract
 
-Although end-to-end (E2E) autonomous driving successfully maps sensor inputs to control actions in clear conditions, it hits a hard physical wall in dense cities: occlusion. When facing blind intersections, single-vehicle agents suffer from high uncertainty, often causing them to freeze or drive erratically. To fix this perception gap, we propose **CORTEX**. This framework extends the standard Trajectory-guided Control Prediction (TCP) architecture by integrating Vehicle-to-Infrastructure (V2I) data. Unlike systems that broadcast everything indiscriminately, CORTEX uses a **Request-Aware Spatial Fusion** mechanism to query Roadside Units (RSUs) only for relevant spatial features. Experiments on the V2XVerse benchmark (Town05) show that CORTEX reduces control signal noise (RMS Yaw Rate) by **74.1%** and improves heading accuracy in blind turns by **43.0%**.
+Although end-to-end (E2E) autonomous driving successfully maps sensor inputs to control actions in clear conditions, it hits a hard physical wall in dense cities: occlusion. When facing blind intersections, single-vehicle agents suffer from high uncertainty, often causing them to freeze or drive erratically.
+
+To fix this perception gap, we propose **CORTEX**. This framework extends the standard Trajectory-guided Control Prediction (TCP) architecture by integrating Vehicle-to-Infrastructure (V2I) data. Unlike systems that broadcast everything indiscriminately, CORTEX uses a **Request-Aware Spatial Fusion** mechanism to query Roadside Units (RSUs) only for relevant spatial features.
+
+Experiments on the V2XVerse benchmark (Town05) show that CORTEX reduces control signal noise (RMS Yaw Rate) by **74.1%** and improves heading accuracy in blind turns by **43.0%**.
 
 ## 🎥 Qualitative Results (Demos)
 
@@ -38,3 +42,28 @@ CORTEX_Repo/
 ├── gen_index.py          # Data preprocessing script
 ├── requirements.txt      # Python dependencies
 └── README.md             # Documentation
+
+## 🛠️ Installation
+We recommend using Anaconda to manage the environment.
+
+System Requirements:
+
+OS: Linux or Windows 10/11
+
+Python: 3.7 (Recommended)
+
+GPU: NVIDIA RTX 3090 (or equivalent with 24GB VRAM)
+
+CUDA: 11.3
+
+1. Clone the repository
+git clone [https://github.com/hamid79daneshvar/CORTEX.git](https://github.com/hamid79daneshvar/CORTEX.git)
+cd CORTEX
+
+2. Create Environment
+conda create -n cortex python=3.7 -y
+conda activate cortex
+
+3. Install Dependencies
+First, install PyTorch with CUDA 11.3 support:
+pip install torch==1.12.1+cu113 torchvision==0.13.1+cu113 --extra-index-url [https://download.pytorch.org/whl/cu113](https://download.pytorch.org/whl/cu113)
