@@ -1,0 +1,17 @@
+# Python stuff
+__pycache__/
+*.py[cod]
+*.so
+
+# Dataset & Logs (Do NOT upload these)
+dataset/
+logs/
+logs_baseline/
+checkpoints/
+*.ckpt
+*.pth
+*.json
+
+# IDE settings
+.vscode/
+.idea/
