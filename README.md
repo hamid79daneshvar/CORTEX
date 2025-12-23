@@ -34,6 +34,7 @@ CORTEX_Repo/
 ├── gen_index.py          # Data preprocessing script
 ├── requirements.txt      # Python dependencies
 └── README.md             # Documentation
+```
 🛠️ InstallationWe recommend using Anaconda to manage the environment.System Requirements:OS: Linux or Windows 10/11Python: 3.7 (Recommended)GPU: NVIDIA RTX 3090 (or equivalent with 24GB VRAM)CUDA: 11.31. Clone the repository:Bashgit clone [https://github.com/hamid79daneshvar/CORTEX.git](https://github.com/hamid79daneshvar/CORTEX.git)
 cd CORTEX
 2. Create Environment:Bashconda create -n cortex python=3.7 -y
