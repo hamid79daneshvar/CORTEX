@@ -37,7 +37,12 @@ def main():
     trainer_module = CoTCP_Trainer.load_from_checkpoint(args.checkpoint_path, map_location=device, config=config, lr=2e-5)
     model = trainer_module.model.to(device).eval()
 
-    with open(args.scenario_file, 'r', encoding='utf-8') as f:
+    scenario_file_path = Path(args.scenario_file)
+    if not scenario_file_path.exists():
+        print(f"Error: Scenario file not found at {scenario_file_path}")
+        return
+
+    with open(scenario_file_path, 'r', encoding='utf-8') as f:
         scenarios_dict = json.load(f)
 
     # Tensor payload constants
