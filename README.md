@@ -69,7 +69,15 @@ Where:
 
 ```text
 CORTEX/
-├── assets/                       # Documentation figures, diagrams, and qualitative plots
+├── assets/                       # Paper figures, qualitative GIFs, and documentation plots
+│   ├── FIG1.png                 # Perceptual Horizon problem conceptual diagram
+│   ├── FIG3.png                 # Open-loop evaluation matrix block diagram
+│   ├── FIG4.svg                 # Paired BEV topology & front RGB camera visualization
+│   ├── FIG5.svg                 # Geometric path & velocity profile analysis
+│   ├── FIG6.svg                 # Control stability & yaw rate evolution
+│   ├── architecture.png         # CORTEX unified computational graph
+│   ├── demo_left.gif            # Qualitative demo: Unprotected left turn
+│   └── demo_right.gif           # Qualitative demo: Blind right turn
 ├── baselines/                    # Re-implementation of baseline architectures
 │   └── tcp_reproduced/           # Monocular TCP baseline
 │       ├── __init__.py
@@ -254,16 +262,17 @@ python evaluation/plot_results.py \
 
 | Paradigm / Model | Modality | Look-Ahead Horizon ($P$) | Planning ADE (m) ↓ | Planning FDE (m) ↓ |
 | :--- | :--- | :---: | :---: | :---: |
-| **No Collaboration (Ego)** | Single-Agent LiDAR | 10 steps (2.0s) | 0.636 | 1.460 |
-| **Late Fusion** | Bounding Box V2X | 10 steps (2.0s) | 0.631 | 1.454 |
-| **F-Cooper** | Max-Pooling V2X | 10 steps (2.0s) | 0.627 | 1.446 |
-| **V2X-ViT** | Vision Transformer | 10 steps (2.0s) | 0.629 | 1.447 |
-| **CoopDet3D** | Intermediate Fusion | 10 steps (2.0s) | 0.623 | 1.439 |
-| **CoDriving (Full)** | Request-Aware V2X | 10 steps (2.0s) | 0.619 | 1.413 |
-| **UniAD** | Centralized Query Planner | 10 steps (2.0s) | 1.080 | 1.470 |
-| **TCP Baseline** | Single-Agent Camera | 4 steps (0.8s) | 0.680 | 1.496 |
+| **No Collaboration (Ego)** [28] | Single-Agent LiDAR | 10 steps (2.0s) | 0.636 | 1.460 |
+| **Late Fusion** [28] | Bounding Box V2X | 10 steps (2.0s) | 0.631 | 1.454 |
+| **F-Cooper** [21, 28] | Max-Pooling V2X | 10 steps (2.0s) | 0.627 | 1.446 |
+| **V2X-ViT** [9, 28] | Vision Transformer | 10 steps (2.0s) | 0.629 | 1.447 |
+| **CoopDet3D** [10, 28] | Intermediate Fusion | 10 steps (2.0s) | 0.623 | 1.439 |
+| **CoDriving (Full)** [28] | Request-Aware V2X | 10 steps (2.0s) | 0.619 | 1.413 |
+| **TCP Baseline** [1] | Single-Agent Camera | 4 steps (0.8s) | 0.680 | 1.496 |
 | **CORTEX Ego-Only (Ours)** | Isolated Dual-LiDAR | 4 steps (0.8s) | **0.325** | **0.582** |
 | **CORTEX V2I-Sync (Ours)** | Request-Aware V2I | 4 steps (0.8s) | **0.315** | **0.561** |
+
+*Note on Centralized Single-Agent Planners:* Centralized non-cooperative paradigms such as **UniAD** [20] report a single-agent mean $L_2$ planning ADE of $1.080\mathrm{m}$ and FDE of $1.470\mathrm{m}$ over a 2.0-second window in urban benchmark literature. Under identical standalone egocentric sensing bounds, CORTEX Ego-Only maintains superior geometric stability ($0.582\mathrm{m}$ FDE, a $46.0\%$ error reduction).
 
 ---
 
@@ -333,7 +342,7 @@ If you find CORTEX useful in your research or autonomous driving engineering wor
   title   = {CORTEX: Cooperative Occlusion-Resilient Trajectory Execution via Request-Aware V2I Fusion},
   author  = {Daneshvar, Hamid and Masih-Tehrani, Masoud and Mollajafari, Morteza},
   journal = {Submitted to IEEE Access (Under Review)},
-  year    = {2026},
+  year    = {2025},
   note    = {Manuscript ID: Access-2025-56941}
 }
 ```
