@@ -342,7 +342,7 @@ If you find CORTEX useful in your research or autonomous driving engineering wor
   title   = {CORTEX: Cooperative Occlusion-Resilient Trajectory Execution via Request-Aware V2I Fusion},
   author  = {Daneshvar, Hamid and Masih-Tehrani, Masoud and Mollajafari, Morteza},
   journal = {Submitted to IEEE Access (Under Review)},
-  year    = {2025},
+  year    = {2026},
   note    = {Manuscript ID: Access-2025-56941}
 }
 ```
