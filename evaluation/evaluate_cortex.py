@@ -203,7 +203,12 @@ def main():
 
     ds = V2XVerse_TCP_Dataset(raw_data_root=Path(args.dataset_root), config=cfg, split="val", town_filter=args.towns)
 
-    with open(args.scenario_file, "r", encoding="utf-8") as f:
+    scenario_file_path = Path(args.scenario_file)
+    if not scenario_file_path.exists():
+        print(f"Error: Scenario file not found at {scenario_file_path}")
+        return
+
+    with open(scenario_file_path, "r", encoding="utf-8") as f:
         all_scenarios = json.load(f)
 
     global_ablation_results = []
