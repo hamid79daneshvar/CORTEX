@@ -12,12 +12,6 @@ import numpy as np
 import pandas as pd
 
 
-def calculate_rms(data_list):
-    valid_data = [x for x in data_list if x is not None and not np.isnan(x) and not np.isinf(x)]
-    if not valid_data: return np.nan
-    return np.sqrt(np.mean(np.square(valid_data)))
-
-
 def main():
     parser = argparse.ArgumentParser(description="CORTEX Evaluation Summary & Table Generator")
     parser.add_argument("--input_json", type=str, default="cortex_ultimate_ablation_matrix_results.json", help="Path to evaluation JSON results")
