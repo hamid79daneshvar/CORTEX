@@ -1,0 +1,33 @@
+{
+    "scenario_1_left_turn_complex": {
+        "description": "Left turn at an intersection with sudden appearance of pedestrians and cars.",
+        "route_contains": "routes_town05_29_w0_05_01_11_43_28",
+        "ranges": [
+            [0, 130],
+            [160, 340]
+        ]
+    },
+    "scenario_2_straight_complex": {
+        "description": "Going straight at an intersection with sudden appearance of pedestrians and cars.",
+        "route_contains": "routes_town05_29_w0_05_01_11_43_28",
+        "ranges": [
+            [340, 370]
+        ]
+    },
+    "scenario_3_right_turn_occluded": {
+        "description": "Right turn at an intersection with view blocked by trucks and sudden pedestrian.",
+        "route_contains": "routes_town05_27_w0_05_01_07_42_33",
+        "ranges": [
+            [0, 40],
+            [80, 160],
+            [180, 240]
+        ]
+    },
+    "scenario_4_straight_occluded": {
+        "description": "Going straight at an intersection with view blocked by trucks and sudden pedestrian.",
+        "route_contains": "routes_town05_27_w0_05_01_07_42_33",
+        "ranges": [
+            [270, 450]
+        ]
+    }
+}
