@@ -11,7 +11,7 @@ Official PyTorch implementation of the research paper:
 > **CORTEX: Cooperative Occlusion-Resilient Trajectory Execution via Request-Aware V2I Fusion**  
 > **Authors:** Hamid Daneshvar, Masoud Masih-Tehrani, and Morteza Mollajafari  
 > *School of Automotive Engineering, Iran University of Science and Technology (IUST)*  
-> **Status:** *Submitted to IEEE Access (Under Review, Manuscript ID: `Access-2025-56941`)*
+> **Status:** *Submitted to IEEE Access (Under Review, Manuscript ID: `Access-2026-41326`)*
 
 ---
 
