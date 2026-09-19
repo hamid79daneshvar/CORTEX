@@ -62,7 +62,7 @@ Traditional end-to-end (E2E) learning architectures for autonomous driving exper
 ```
 
 Where:
-- $\mathcal{L}_{\mathrm{total}} = \alpha \mathcal{L}_{\mathrm{wp}} + \beta \mathcal{L}_{\mathrm{ctrl}} + \gamma \mathcal{L}_{\mathrm{coarse}} + \lambda \mathcal{L}_{\mathrm{consistency}}$.
+- $\mathcal{L}_{\text{total}} = \alpha \mathcal{L}_{\text{wp}} + \beta \mathcal{L}_{\text{ctrl}} + \gamma \mathcal{L}_{\text{coarse}} + \lambda \mathcal{L}_{\text{consistency}}$.
 - $\mathcal{L}_{\mathrm{wp}}$: Waypoint trajectory regression ($L_1$ norm over look-ahead horizon $P=4$).
 - $\mathcal{L}_{\mathrm{ctrl}}$: Actuator command loss: $\|a_t - a_t^*\|_1 = |th_t - th_t^*| + |st_t - st_t^*| + |br_t - br_t^*|$.
 - $\mathcal{L}_{\mathrm{coarse}}$: Auxiliary supervisory signal for the feedforward query corridor generator.
