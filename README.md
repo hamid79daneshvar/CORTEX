@@ -1,17 +1,19 @@
 # CORTEX: Cooperative Occlusion-Resilient Trajectory Execution via Request-Aware V2I Fusion
 
-[![Journal: IEEE Access](https://img.shields.io/badge/IEEE%20Access-Under%20Review-orange.svg)](https://ieeeaccess.ieee.org/)
-[![Status: Submitted](https://img.shields.io/badge/Status-Revised%20Manuscript%20Submitted-blue.svg)](https://ieeeaccess.ieee.org/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Journal: IEEE Access](https://img.shields.io/badge/IEEE%20Access-Accepted-success.svg)](https://doi.org/10.1109/ACCESS.2026.3734682)
+[![DOI: 10.1109/ACCESS.2026.3734682](https://img.shields.io/badge/DOI-10.1109%2FACCESS.2026.3734682-blue.svg)](https://doi.org/10.1109/ACCESS.2026.3734682)
+[![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
 [![Framework: PyTorch](https://img.shields.io/badge/Framework-PyTorch-ee4c2c.svg)](https://pytorch.org/)
 [![Benchmark: V2XVerse](https://img.shields.io/badge/Benchmark-V2XVerse-green.svg)](https://huggingface.co/datasets/gjliu/V2Xverse/tree/main)
 
-Official PyTorch implementation of the research paper:
+Official PyTorch implementation of the research article:
 
 > **CORTEX: Cooperative Occlusion-Resilient Trajectory Execution via Request-Aware V2I Fusion**  
 > **Authors:** Hamid Daneshvar, Masoud Masih-Tehrani, and Morteza Mollajafari  
 > *School of Automotive Engineering, Iran University of Science and Technology (IUST)*  
-> **Status:** *Submitted to IEEE Access (Under Review, Manuscript ID: `Access-2025-56941`)*
+> **Publication:** Accepted for Publication in **IEEE Access** (September 2026)  
+> **Official DOI:** [10.1109/ACCESS.2026.3734682](https://doi.org/10.1109/ACCESS.2026.3734682)  
+> **Manuscript ID:** `Access-2026-41326`
 
 ---
 
@@ -27,13 +29,13 @@ Official PyTorch implementation of the research paper:
 - [Main Experimental Results](#-main-experimental-results)
 - [Cross-Platform & Windows Compatibility Notes](#-cross-platform--windows-compatibility-notes)
 - [Citation](#-citation)
-- [License & Acknowledgements](#-license--acknowledgements)
+- [License & Terms of Use](#-license--terms-of-use)
 
 ---
 
 ## 💡 Executive Overview
 
-Traditional end-to-end (E2E) learning architectures for autonomous driving experience severe **epistemic uncertainty** and passive **"freezing robot"** behaviors in dense urban environments due to non-line-of-sight (NLOS) occlusions. While Vehicle-to-Infrastructure (V2I) communication can expand the perceptual horizon, existing cooperative pipelines either saturate wireless channels via indiscriminate feature broadcasting or terminate prematurely at perception metrics (3D IoU) without directly conditioning downstream vehicle control.
+Traditional end-to-end (E2E) learning architectures for autonomous driving experience severe **aleatoric uncertainty** and passive **"freezing robot"** behaviors in dense urban environments due to non-line-of-sight (NLOS) occlusions. While Vehicle-to-Infrastructure (V2I) communication can expand the perceptual horizon, existing cooperative pipelines either saturate wireless channels via indiscriminate feature broadcasting or terminate prematurely at intermediate perception metrics (3D IoU) without directly conditioning downstream vehicle control.
 
 **CORTEX** bridges this critical gap by unifying request-aware spatial fusion, velocity-yaw-rate motion latency correction, and a topography-preserving spatial convolutional control head directly mapped to physical actuators within a non-truncated **13,960-channel control input space**.
 
@@ -41,8 +43,8 @@ Traditional end-to-end (E2E) learning architectures for autonomous driving exper
 
 ## ✨ Key Architectural Contributions
 
-1. **Request-Aware Transmission Pruning:** Projects feedforward path trajectories from an egocentric coarse head to query infrastructure Roadside Units (RSUs) exclusively along the driving corridor, achieving up to **54.9% volumetric bandwidth relief**.
-2. **Kinematic Latency Corrector Net (`LatencyCorrector`):** Utilizes real-time egocentric linear velocities ($v_x, v_y$) and instantaneous yaw rate ($\omega$) via 2D affine grid warping ($A_{\mathrm{lat}}$) and residual flow networks to neutralize asynchronous transmission lags up to **500 ms** (with only 7.4 mm tracking drift).
+1. **Request-Aware Transmission Pruning:** Projects feedforward path trajectories from an egocentric coarse head to query infrastructure Roadside Units (RSUs) exclusively along the driving corridor, achieving **70.4%** bandwidth savings in left turns, **45.1%** in occluded right turns, and an average **61.1% overall data volume reduction**.
+2. **Kinematic Latency Corrector Net (`LatencyCorrector`):** Utilizes real-time egocentric linear velocities ($v_x, v_y$) and instantaneous yaw rate ($\omega$) via 2D affine grid warping ($A_{\mathrm{lat}}$) and residual flow networks to neutralize asynchronous transmission lags under deterministic step delays up to **500 ms** (with only 7.4 mm tracking drift).
 3. **Topography-Preserving Spatial Control Head:** Bypasses early Global Average Pooling (GAP) layers using cascading strided convolutions ($384 \times 96 \times 288 \rightarrow 32 \times 12 \times 36 \rightarrow 13,824$), preserving localized obstacle proximity boundaries within a non-truncated **13,960-channel** multi-modal control vector.
 4. **Sub-Grid Pose Noise Immunity:** Sub-grid pooling quantization creates a $0.5\mathrm{m} \times 0.5\mathrm{m}$ token receptive field, rendering policy execution completely invariant to Gaussian localization pose drift ($\sigma \le 0.5\mathrm{m}$).
 5. **Jitter-Free Control Synthesis:** Regularized by an explicit second-order derivative kinematic consistency loss ($\mathcal{L}_{\mathrm{consistency}}$), reducing global steering jitter (RMS Yaw Rate) by **74.1%** ($12.83^\circ/\mathrm{s}$ vs. $49.66^\circ/\mathrm{s}$).
@@ -55,11 +57,12 @@ Traditional end-to-end (E2E) learning architectures for autonomous driving exper
 
 ### Mathematical Formulation Summary
 
-$$\mathcal{L}_{\mathrm{total}} = \alpha \mathcal{L}_{\mathrm{wp}} + \beta \mathcal{L}_{\mathrm{ctrl}} + \gamma \mathcal{L}_{\mathrm{coarse}} + \lambda \mathcal{L}_{\mathrm{consistency}}$$
+$$\min_{\Theta} \frac{1}{N} \sum_{i=1}^{N} \mathcal{L}_{\mathrm{total}}\left(\Pi_t(\mathcal{L}_{\mathrm{ego}}^i, \mathcal{L}_{\mathrm{rsu}}^i, m_i, \omega_i, \Delta t_i; \Theta), a_i^*, \tau_i^*\right)$$
 
 Where:
+- $\mathcal{L}_{\mathrm{total}} = \alpha \mathcal{L}_{\mathrm{wp}} + \beta \mathcal{L}_{\mathrm{ctrl}} + \gamma \mathcal{L}_{\mathrm{coarse}} + \lambda \mathcal{L}_{\mathrm{consistency}}$
 - $\mathcal{L}_{\mathrm{wp}}$: Waypoint trajectory regression ($L_1$ norm over look-ahead horizon $P=4$).
-- $\mathcal{L}_{\mathrm{ctrl}}$: Actuator command loss over continuous action vector $a_t = [\mathrm{throttle}, \mathrm{steer}, \mathrm{brake}]^T$.
+- $\mathcal{L}_{\mathrm{ctrl}}$: Actuator command loss: $\|a_t - a_t^*\|_1 = |th_t - th_t^*| + |st_t - st_t^*| + |br_t - br_t^*|$.
 - $\mathcal{L}_{\mathrm{coarse}}$: Auxiliary supervisory signal for the feedforward query corridor generator.
 - $\mathcal{L}_{\mathrm{consistency}}$: Relative displacement derivative smoother enforcing second-order kinematic continuity.
 
@@ -272,11 +275,11 @@ python evaluation/plot_results.py \
 | **CORTEX Ego-Only (Ours)** | Isolated Dual-LiDAR | 4 steps (0.8s) | **0.325** | **0.582** |
 | **CORTEX V2I-Sync (Ours)** | Request-Aware V2I | 4 steps (0.8s) | **0.315** | **0.561** |
 
-*Note on Centralized Single-Agent Planners:* Centralized non-cooperative paradigms such as **UniAD** [20] report a single-agent mean $L_2$ planning ADE of $1.080\mathrm{m}$ and FDE of $1.470\mathrm{m}$ over a 2.0-second window in urban benchmark literature. Under identical standalone egocentric sensing bounds, CORTEX Ego-Only maintains superior geometric stability ($0.582\mathrm{m}$ FDE, a $46.0\%$ error reduction).
+*Note on Centralized Single-Agent Planners:* Centralized non-cooperative paradigms such as **UniAD** [20] report a single-agent mean $L_2$ planning ADE of $1.080\mathrm{m}$ and FDE of $1.470\mathrm{m}$ over a 2.0-second window in urban benchmark literature. Under identical standalone egocentric sensing bounds, CORTEX Ego-Only compresses the endpoint error down to $0.582\mathrm{m}$ FDE (a $61.1\%$ error reduction vs. TCP and $60.4\%$ vs. UniAD).
 
 ---
 
-### Table 2: Spatio-Temporal Robustness Across Stochastic Network Transmission Lags ($\Delta t$)
+### Table 2: Spatio-Temporal Robustness Under Deterministic Network Transmission Delays ($\Delta t$)
 
 | Communication Matrix State | Channel Delay ($\Delta t$) | Global ADE (m) ↓ | Global FDE (m) ↓ | Lateral Dev (m) ↓ | Heading Error (deg) ↓ |
 | :--- | :---: | :---: | :---: | :---: | :---: |
@@ -288,7 +291,7 @@ python evaluation/plot_results.py \
 | **CORTEX Delayed State** | $500\mathrm{ ms}$ | **0.3252** | **0.5730** | **0.0484** | **24.88** |
 | **CORTEX Ego-Only** | Blackout ($0\%$) | 0.3258 | 0.5827 | 0.0449 | 26.45 |
 
-*Key Takeaway:* Scaling transmission delay to a critical half-second block ($500\mathrm{ ms}$) causes only **7.4 mm** drift in global ADE, proving total latency immunity via motion-compensated affine grid warping.
+*Key Takeaway:* Under controlled deterministic step delays scaling up to $500\mathrm{ ms}$, the LatencyCorrector module restricts global ADE drift to merely **7.4 mm** ($9.5\mathrm{ mm}$ relative to zero-delay sync), maintaining high lateral stability.
 
 ---
 
@@ -304,12 +307,15 @@ python evaluation/plot_results.py \
 
 ---
 
-### Table 4: Volumetric V2I Network Traffic & Bandwidth Compression Audit
+### Table 4: Volumetric V2I Network Traffic & Bandwidth Compression Audit (Table IX in Paper)
 
-| Evaluation Corridor | Total Frames | Fused Frames | V2I Activation Rate (%) | Baseline Payload (MB) | CORTEX Payload (MB) | Bandwidth Savings (%) |
+| Evaluation Scenario | Total Frames ($N$) | Fused Frames ($N_f$) | V2I Activation Rate (%) | Baseline Volume (MB) | CORTEX Volume (MB) | Verified Bandwidth Savings (%) |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Left Turn Complex Corridor** | 311 | 92 | 29.6% | 6297.75 | 4436.15 | **29.6%** |
-| **Right Turn Occluded Apex** | 182 | 100 | 54.9% | 3685.50 | 1662.22 | **54.9%** |
+| **Left Turn Complex** | 311 | 92 | 29.6% | 6297.75 | 1863.00 | **70.4%** |
+| **Right Turn Occluded** | 182 | 100 | 54.9% | 3685.50 | 2025.00 | **45.1%** |
+| **Overall Combined** | **493** | **192** | **38.9%** | **9983.25** | **3888.00** | **61.1%** |
+
+*Note:* Baseline volume represents continuous uncompressed Float16 BEV streaming ($P_{BEV} = 20.25\mathrm{ MB/frame}$). CORTEX transmits strictly during request-activated fused frames ($N_f$), remaining completely idle ($0\mathrm{ MB}$) during nominal driving intervals ($S = 1 - N_f / N$).
 
 ---
 
@@ -335,21 +341,33 @@ To ensure seamless execution across both Windows and Linux environments, the fol
 
 ## 🔗 Citation
 
-If you find CORTEX useful in your research or autonomous driving engineering workflows, please cite our official manuscript:
+If you find CORTEX useful in your research, academic studies, or autonomous driving engineering workflows, please cite our official article in **IEEE Access**:
 
 ```bibtex
-@article{daneshvar2025cortex,
-  title   = {CORTEX: Cooperative Occlusion-Resilient Trajectory Execution via Request-Aware V2I Fusion},
-  author  = {Daneshvar, Hamid and Masih-Tehrani, Masoud and Mollajafari, Morteza},
-  journal = {Submitted to IEEE Access (Under Review)},
-  year    = {2026},
-  note    = {Manuscript ID: Access-2025-56941}
+@article{daneshvar2026cortex,
+  title     = {CORTEX: Cooperative Occlusion-Resilient Trajectory Execution via Request-Aware V2I Fusion},
+  author    = {Daneshvar, Hamid and Masih-Tehrani, Masoud and Mollajafari, Morteza},
+  journal   = {IEEE Access},
+  year      = {2026},
+  doi       = {10.1109/ACCESS.2026.3734682},
+  publisher = {IEEE}
 }
 ```
 
 ---
 
-## 📄 License & Acknowledgements
+## 📄 License & Terms of Use
 
-- **License:** Distributed under the **MIT License**. See `LICENSE` for details.
-- **Acknowledgements:** This repository builds upon the foundational trajectory-guided concepts established by **TCP** ([NeurIPS 2022](https://github.com/OpenDriveLab/TCP)) and utilizes the collaborative simulation tools of **V2XVerse** ([PAMI 2025](https://github.com/gjliu/V2Xverse)).
+This repository is licensed under the **Creative Commons Attribution 4.0 International License (CC BY 4.0)** with mandatory citation attribution.
+
+### Terms of Use:
+- **Attribution Required (BY):** You are permitted to use, reproduce, modify, and distribute this codebase, trained model checkpoints, and associated artifacts for research, academic, and commercial purposes, **provided that you give appropriate credit, provide a link to the license, and cite the official IEEE Access publication as referenced above**.
+- **Citation Obligation:** Any publication, technical report, patent, derivative model, or public benchmark utilizing parts of this repository must include a direct formal citation to the CORTEX paper.
+
+For complete license terms, please refer to the official [Creative Commons Attribution 4.0 International Legal Code](https://creativecommons.org/licenses/by/4.0/legalcode).
+
+---
+
+## 🙏 Acknowledgements
+
+This repository builds upon the foundational trajectory-guided concepts established by **TCP** ([NeurIPS 2022](https://github.com/OpenDriveLab/TCP)) and utilizes the collaborative simulation tools of **V2XVerse** ([IEEE TPAMI 2025](https://github.com/gjliu/V2Xverse)). We express our gratitude to the authors for releasing their codebases.
