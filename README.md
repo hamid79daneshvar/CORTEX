@@ -57,7 +57,9 @@ Traditional end-to-end (E2E) learning architectures for autonomous driving exper
 
 ### Mathematical Formulation Summary
 
-$$\min_{\Theta} \frac{1}{N} \sum_{i=1}^{N} \mathcal{L}_{\mathrm{total}}\left(\Pi_t(\mathcal{L}_{\mathrm{ego}}^i, \mathcal{L}_{\mathrm{rsu}}^i, m_i, \omega_i, \Delta t_i; \Theta), a_i^*, \tau_i^*\right)$$
+```math
+\min_{\Theta} \frac{1}{N} \sum_{i=1}^{N} \mathcal{L}_{\text{total}}\left(\Pi_t(\mathcal{L}_{\text{ego}}^i, \mathcal{L}_{\text{rsu}}^i, m_i, \omega_i, \Delta t_i; \Theta), a_i^*, \tau_i^*\right)
+```
 
 Where:
 - $\mathcal{L}_{\mathrm{total}} = \alpha \mathcal{L}_{\mathrm{wp}} + \beta \mathcal{L}_{\mathrm{ctrl}} + \gamma \mathcal{L}_{\mathrm{coarse}} + \lambda \mathcal{L}_{\mathrm{consistency}}$
@@ -230,7 +232,7 @@ python evaluation/evaluate_baseline.py \
     --output_file tcp_eval_results.json
 ```
 
-### 3. Localization Pose Uncertainty Stress Test ($\sigma = 0.0 \rightarrow 0.5\mathrm{ m}$)
+### 3. Localization Pose Uncertainty Stress Test (σ = 0.0 to 0.5 m)
 
 ```bash
 python evaluation/stress_test_noise.py \
@@ -279,7 +281,7 @@ python evaluation/plot_results.py \
 
 ---
 
-### Table 2: Spatio-Temporal Robustness Under Deterministic Network Transmission Delays ($\Delta t$)
+### Table 2: Spatio-Temporal Robustness Under Deterministic Network Transmission Delays (Δt)
 
 | Communication Matrix State | Channel Delay ($\Delta t$) | Global ADE (m) ↓ | Global FDE (m) ↓ | Lateral Dev (m) ↓ | Heading Error (deg) ↓ |
 | :--- | :---: | :---: | :---: | :---: | :---: |
@@ -319,7 +321,7 @@ python evaluation/plot_results.py \
 
 ---
 
-### Table 5: Pose Uncertainty Sensitivity Analysis ($\mathcal{N}(0, \sigma^2)$)
+### Table 5: Pose Uncertainty Sensitivity Analysis (Gaussian Noise N(0, σ²))
 
 | Localization Drift ($\sigma$) | Operating Condition | TCP Baseline ADE (m) | CORTEX ADE (m) | Control $L_1$ Dev | Robustness Gain |
 | :--- | :--- | :---: | :---: | :---: | :---: |
